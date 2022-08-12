@@ -16,10 +16,11 @@ const $input = $('input[type="text"]');
 $form.on('submit', handleSubmit);
 
 // Functions
-getCityCoord();
-handleSubmit();
-
 function handleSubmit(event) {
+  event && event.preventDefault();
+
+  getCityCoord(event);
+
   const promise = $.ajax(
     `${WEATHER_URL}lat=${inputCitylat}&lon=${inputCitylon}&appid=${API_KEY}`
   );
@@ -34,18 +35,16 @@ function handleSubmit(event) {
   );
 }
 
-function getCityCoord() {
-  const promise = $.ajax(`${GEOCODING_URL}q=denver&appid=${API_KEY}`); // returns a promise object
-
+function getCityCoord(event) {
+  const city = $input.val() || 'Denver';
+  const promise = $.ajax(`${GEOCODING_URL}q=${city}&appid=${API_KEY}`);
   promise.then(
     (data) => {
-      // success callback
       console.log('City Data: ', data);
       inputCitylat = data[0].lat;
       inputCitylon = data[0].lon;
     },
     (error) => {
-      // failure callback
       console.log('City Error: ', error);
     }
   );
