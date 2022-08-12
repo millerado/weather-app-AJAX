@@ -19,15 +19,13 @@ $form.on('submit', handleSubmit);
 function handleSubmit(event) {
   event && event.preventDefault();
 
-  getCityCoord(event);
-
   const promise = $.ajax(
     `${WEATHER_URL}lat=${inputCitylat}&lon=${inputCitylon}&appid=${API_KEY}`
   );
-
   promise.then(
     (data) => {
       console.log('Weather Data: ', data);
+      // render(data);
     },
     (error) => {
       console.log('Weather Error: ', error);
@@ -48,4 +46,13 @@ function getCityCoord(event) {
       console.log('City Error: ', error);
     }
   );
+}
+
+function render(weatherData) {
+  $main.html(`
+  <h3>City: ${weatherData.name}</h3>
+  <p>Temp: ${weatherData.main.temp}</p>
+  <p>Feels Like: ${weatherData.main.feels_like}</p>
+  <p>Weather: ${weatherData.weather[0].description}</p>
+  `);
 }
