@@ -13,8 +13,11 @@ const $form = $('form');
 const $input = $('input[type="text"]');
 
 // Event Listeners
+$form.on('submit', handleSumbit);
 
 // Functions
+
+function handleSumbit(event) {}
 
 function getCityCoord() {
   const promise = $.ajax(`${GEOCODING_URL}q=denver&appid=${API_KEY}`); // returns a promise object
