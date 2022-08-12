@@ -25,7 +25,7 @@ function handleSubmit(event) {
   promise.then(
     (data) => {
       console.log('Weather Data: ', data);
-      // render(data);
+      render(data);
     },
     (error) => {
       console.log('Weather Error: ', error);
