@@ -1,6 +1,6 @@
 // Constants
 const API_KEY = '8dae7ca41db9eb1c69c7ee17d1924999';
-const WEATHER_URL = 'https://api.openweathermap.org/data/3.0/onecall?';
+const WEATHER_URL = 'https://api.openweathermap.org/data/2.5/weather?';
 const GEOCODING_URL = 'http://api.openweathermap.org/geo/1.0/direct?';
 
 // States
@@ -13,11 +13,26 @@ const $form = $('form');
 const $input = $('input[type="text"]');
 
 // Event Listeners
-$form.on('submit', handleSumbit);
+$form.on('submit', handleSubmit);
 
 // Functions
+getCityCoord();
+handleSubmit();
 
-function handleSumbit(event) {}
+function handleSubmit(event) {
+  const promise = $.ajax(
+    `${WEATHER_URL}lat=${inputCitylat}&lon=${inputCitylon}&appid=${API_KEY}`
+  );
+
+  promise.then(
+    (data) => {
+      console.log('Weather Data: ', data);
+    },
+    (error) => {
+      console.log('Weather Error: ', error);
+    }
+  );
+}
 
 function getCityCoord() {
   const promise = $.ajax(`${GEOCODING_URL}q=denver&appid=${API_KEY}`); // returns a promise object
@@ -25,14 +40,13 @@ function getCityCoord() {
   promise.then(
     (data) => {
       // success callback
-      console.log('Data: ', data);
+      console.log('City Data: ', data);
       inputCitylat = data[0].lat;
       inputCitylon = data[0].lon;
-      console.log(inputCitylat, inputCitylon);
     },
     (error) => {
       // failure callback
-      console.log('Error: ', error);
+      console.log('City Error: ', error);
     }
   );
 }
