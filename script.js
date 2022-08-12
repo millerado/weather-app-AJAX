@@ -21,7 +21,9 @@ function handleSubmit(event) {
 
   const city = $input.val() || 'Denver';
 
-  const promise = $.ajax(`${WEATHER_URL}q=${city}&appid=${API_KEY}`);
+  const promise = $.ajax(
+    `${WEATHER_URL}q=${city}&units=imperial&appid=${API_KEY}`
+  );
   promise.then(
     (data) => {
       console.log('Weather Data: ', data);
@@ -50,8 +52,8 @@ function handleSubmit(event) {
 function render(weatherData) {
   $main.html(`
   <h3>City: ${weatherData.name}</h3>
-  <p>Temp: ${weatherData.main.temp}</p>
-  <p>Feels Like: ${weatherData.main.feels_like}</p>
+  <p>Temp: ${weatherData.main.temp}&#x2109</p>
+  <p>Feels Like: ${weatherData.main.feels_like}&#x2109</p>
   <p>Weather: ${weatherData.weather[0].description}</p>
   `);
 }
